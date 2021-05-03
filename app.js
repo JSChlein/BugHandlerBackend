@@ -40,6 +40,9 @@ app.get('', (req, res) => {
     });
 })
 
+const reportRouter = require("./routes/reportRoutes");
+app.use("/report", reportRouter);
+
 const userRouter = require("./routes/userRoutes");
 app.use("/user", userRouter);
 

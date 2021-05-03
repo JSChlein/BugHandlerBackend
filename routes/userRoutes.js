@@ -47,6 +47,13 @@ router.post('/register', (req, res) => {
 
 })
 
+router.get('/logout', (req, res) => {
+    req.session.isLoggedIn = false;
+    req.session.email = null;
+    req.session.docID = null;
+    res.redirect("/")
+})
+
 
 
 router.post('/login', (req, res) => {

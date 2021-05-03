@@ -42,8 +42,12 @@ database.CreateUser = function(email, password, callback) {
     }))
 }
 
-database.DeleteUser = function(username, password) {
-
+database.DeleteUser = function(docId, callback) {
+    db.collection("Accounts").doc(docId).delete().then(function() {
+        callback("User has been deleted")
+    }).catch(function(error) {
+        console.log(error)
+    })
 }
 
 database.GetUser = function(username, password) {
@@ -62,8 +66,8 @@ database.DeleteReport = function() {
 
 }
 
-database.GetAllReports = function() {
-
+database.GetAllReports = function(callback) {
+    callback("hej")
 }
 
 

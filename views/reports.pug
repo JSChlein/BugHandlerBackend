@@ -1,0 +1,63 @@
+include includes/header.pug
+head
+  title Reports Overview
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  link(rel="stylesheet" type="text/css" href="/stylesheets/styles.css")
+  link(rel="stylesheet" type="text/css" href="/stylesheets/admin.css")
+
+body
+  .wrapper
+    .container
+      if reports
+        div.col-xs-2
+          input#myInput.form-control(type='text' placeholder='Søg..')
+        br
+        table.table.table-hover
+          thead
+            tr
+              th Snapshot
+              th Titel
+              th Description
+              th Tags
+              th Date
+              th More info
+          tbody#myTable
+              each report, index in reports
+                tr
+                  td #{report.snapshot}
+                  td #{report.title}
+                  td #{report.description}
+                  td #{report.tags}
+                  td(class="dato") #{report.dateCreated}
+                  td 
+                    button#knap(type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#deleteModal" + index)
+                        span(class="glyphicon glyphicon-new-window")
+      unless reports
+        p Ingen Reports Fundet.
+        table.table.table-hover
+          thead
+            tr
+              th Billede
+              th Titel
+              th Beskrivelse
+              th Dato
+              th Slet/Rediger
+          tbody
+                tr
+                  td
+                  td 
+                  td 
+                  td
+                  td    
+
+
+script.
+            $(document).ready(function(){
+              $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function() {
+                  $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+              });
+            });
