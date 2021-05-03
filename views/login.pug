@@ -1,0 +1,27 @@
+
+include includes/header
+head
+  link(rel="stylesheet", type="text/css" href="/stylesheets/login-styles.css")
+  link(rel="stylesheet" type="text/css" href="/stylesheets/styles.css")
+body
+  .wrapper
+    .form
+      form(action='/user/auth', method='POST' class="login-form")
+        h1 Login
+        input(
+          type='email'
+          name='email' 
+          placeholder='Email' 
+          required
+        )
+        input(
+          type='password'
+          name='password' 
+          placeholder='Password' 
+          required
+        )
+        h5(style="color: red; text-align: center;") #{msg}
+        input(type='submit' value="Login")
+        br
+        br
+        a(href="/user/register") Not registered? Click Here. 

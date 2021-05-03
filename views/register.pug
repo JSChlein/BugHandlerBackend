@@ -1,0 +1,28 @@
+
+include includes/header
+head
+  link(rel="stylesheet", type="text/css" href="/stylesheets/login-styles.css")
+  link(rel="stylesheet" type="text/css" href="/stylesheets/styles.css")
+body
+  .wrapper
+    .form
+      form(action='/user/register', method='POST' class="login-form")
+        h1 Create Account
+        p Email
+        input(
+          type='email'
+          name='email' 
+          placeholder='Email' 
+          required
+        )
+        p Password
+        input(
+          type='password'
+          name='password' 
+          placeholder='Password' 
+          required
+        )
+        h5(style="color: red; text-align: center;") #{msg}
+        input(type='submit' value="Create Account")
+        br
+        br
