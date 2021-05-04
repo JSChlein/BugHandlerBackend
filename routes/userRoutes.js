@@ -42,7 +42,7 @@ router.post('/register', (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
     database.CreateUser(email, password, (user) => {
-        res.redirect("/login")
+        res.redirect("user/login")
     })
 
 })
