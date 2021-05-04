@@ -1,14 +1,18 @@
-import { initializeApp, credential as _credential, firestore } from "firebase-admin";
+//står for alt grunt work til at hente data fra firebase.
+const config = require("../config");
+let database = {};
 
-import serviceAccount from "../serviceAccountKey.json";
 
-initializeApp({
-    credential: _credential.cert(serviceAccount)
+
+//----------------------------------GOOGLE CLOUD OPSÆTNING----------------------------------------------------//
+
+const admin = require("firebase-admin");
+admin.initializeApp({
+    credential: admin.credential.cert(config.firestoreServiceAccount),
 });
 
-const db = firestore();
-
-let database = {};
+//db ref
+const db = admin.firestore();
 
 //------------------------------------------------------DATABASE METHODS---------------------------------------------------------------
 
@@ -72,4 +76,4 @@ database.GetAllReports = function(callback) {
 
 
 
-export default database;
+module.exports = database;

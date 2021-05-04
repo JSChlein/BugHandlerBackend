@@ -1,7 +1,7 @@
 const chalk = require("chalk");
 const express = require("express");
 const session = require("express-session");
-const database = require("../controllers/dbcontext");
+const database = require("../controllers/dbcontext").default;
 const router = express.Router();
 const db = require("../controllers/dbController");
 

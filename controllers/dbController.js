@@ -1,4 +1,4 @@
-const dbContext = require("./dbcontext");
+const dbContext = require("./dbcontext").default;
 
 
 let controller = {};
