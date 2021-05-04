@@ -1,12 +1,12 @@
-var admin = require("firebase-admin");
+import { initializeApp, credential as _credential, firestore } from "firebase-admin";
 
-var serviceAccount = require("../serviceAccountKey.json");
+import serviceAccount from "../serviceAccountKey.json";
 
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
+initializeApp({
+    credential: _credential.cert(serviceAccount)
 });
 
-const db = admin.firestore();
+const db = firestore();
 
 let database = {};
 
@@ -72,4 +72,4 @@ database.GetAllReports = function(callback) {
 
 
 
-module.exports = database;
+export default database;
