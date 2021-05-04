@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const config = require('./config')
 const morgan = require('morgan');
+const pug = require("pug");
 
 const app = express();
 
