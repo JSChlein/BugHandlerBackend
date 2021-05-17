@@ -58,8 +58,32 @@ database.GetUser = function(username, password) {
 
 }
 
-database.CreateReport = function() {
+database.CreateReport = function(req, callback) {
 
+    let data = req;
+    console.log(data);
+
+    console.log(`Title: ${data.Title},
+        Description: ${data.Description},
+        TimeStamp: ${data.TimeStamp},
+        EncodedImage: ${data.EncodedImage},
+        ErrorCode: ${data.ErrorCode},
+        ErrorMessage: ${data.ErrorMessage},
+        FileName: ${data.FileName},
+        ProgramName: ${data.ProgramName}`);
+
+
+
+    callback(db.collection('Reports').doc().set({
+        Title: data.Title,
+        Description: data.Description,
+        TimeStamp: data.TimeStamp,
+        EncodedImage: data.EncodedImage,
+        ErrorCode: data.ErrorCode,
+        ErrorMessage: data.ErrorMessage,
+        FileName: data.FileName,
+        ProgramName: data.ProgramName
+    }))
 }
 
 database.GetReport = function() {
@@ -71,7 +95,35 @@ database.DeleteReport = function() {
 }
 
 database.GetAllReports = function(callback) {
-    callback("hej")
+    db.collection("Reports")
+        .get()
+        .then((snapshot) => {
+            if (snapshot.empty) {
+                return;
+            } else {
+                let userArray = [];
+                let i = 0;
+                snapshot.forEach((document) => {
+                    const report = document.data();
+                    let reportObj = {
+                        Title: report.Title,
+                        Description: report.Description,
+                        phone: report.telefonnummer,
+                        docId: snapshot.docs[i].id
+                    };
+                    if (userObj.username == "admin") {
+                        i++;
+                    } else {
+                        userArray.push(userObj);
+                        i++;
+                    }
+                });
+                callback(userArray);
+            }
+        })
+        .catch((err) => {
+            return;
+        });
 }
 
 

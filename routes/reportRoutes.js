@@ -17,6 +17,13 @@ router.get("/all", (req, res) => {
 
 })
 
+router.post("/new", (req, res) => {
+    console.log(req.body.Title);
+    database.CreateReport(req.body, (status) => {
+        res.send(status);
+    })
+})
+
 
 
 
