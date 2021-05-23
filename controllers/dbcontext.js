@@ -238,5 +238,15 @@ database.GetAllApplications = function(callback) {
         });
 }
 
+database.DeleteApplication = function(docId, callback) {
+    db.collection("Applications")
+        .doc(docId)
+        .delete()
+        .then(res => callback(res))
+        .catch((err) => {
+            console.log(err);
+        });
+}
+
 
 module.exports = database;

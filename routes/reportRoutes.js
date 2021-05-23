@@ -8,6 +8,9 @@ const util = require('util');
 
 
 router.get("/all", (req, res) => {
+
+    let AppId = req.query.appId;
+    console.log(AppId);
     if (req.session.isLoggedIn) {
         console.log("Hej")
         database.GetAllReports((data) => {
@@ -23,6 +26,7 @@ const CreateReportAsync = util.promisify(database.CreateReport);
 
 router.post("/new", (req, res) => {
     let data;
+    data = req.body;
     setTimeout(function() {
         CreateReportAsync(data).then(result => {
             console.log(result);
@@ -30,7 +34,7 @@ router.post("/new", (req, res) => {
             console.log(err);
         });
     }, 10000)
-    data = req.body;
+
 })
 
 router.get("/new", (req, res) => {
@@ -82,6 +86,17 @@ router.get("/allApps", (req, res) => {
     database.GetAllApplications((data) => {
         res.render("AllApps", { data: data })
     })
+})
+
+router.delete("/allApps/delete", (req, res) => {
+    let docId = req.body.DocId;
+    console.log(docId);
+    database.DeleteApplication(docId, (response) => {
+        console.log(response);
+        res.send(response);
+    })
+
+
 })
 
 

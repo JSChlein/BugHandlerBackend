@@ -5,7 +5,7 @@ head
   meta(name='viewport' content='width=device-width, initial-scale=1')
   link(rel="stylesheet" type="text/css" href="/stylesheets/styles.css")
   link(rel="stylesheet" type="text/css" href="/stylesheets/reports.css")
-  script( type="text/javascript" src='/scripts/api.js')
+  script( type="text/javascript" src='/scripts/apps.js')
 body
     .container
         if data
@@ -18,5 +18,5 @@ body
                             h3 #{app.Title}
                             p #{app.Description}
                             p #{app.Id}
-                            a.btn.btn-primary(href='#' role='button') Button
-                            a.btn.btn-default(href='#' role='button') Button
+                            a.btn.btn-primary(onClick="deleteApp(this);" data-docId=app.docId role='button') Delete
+                            a.btn.btn-default(onClick="seeReport(this);" data-appId=app.Id role='button') See Reports
