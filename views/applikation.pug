@@ -1,0 +1,38 @@
+
+include includes/header
+head
+  link(rel="stylesheet", type="text/css" href="/stylesheets/login-styles.css")
+  link(rel="stylesheet" type="text/css" href="/stylesheets/styles.css")
+  link(rel="stylesheet" type="text/css" href="/stylesheets/upload.css")
+  script(type="module" src="/scripts/upload.js")
+  
+body
+    .container
+        .wrapper
+            h1 Register a new application.
+            br
+            h3 Fill out the form to register a new application with the API.
+            h3 Once registered, you will receive an authentication code needed to implement the API.
+            .form
+                form.md-form(name="uploadForm" enctype='multipart/form-data')
+                    .row
+                        .col-md-6
+                            .file-field
+                            .z-depth-1-half.mb-4
+                                img#showImage.img-fluid(src='https://wtwp.com/wp-content/uploads/2015/06/placeholder-image.png' alt='example placeholder')
+                                .d-flex.justify-content-center
+                                .btn.btn-mdb-color.btn-rounded.float-left
+                                span Choose Image
+                                input#fileInput(name='myImage' type='file' onchange="readURL(this);" required)
+                        .col-md-5-offset
+                                p Title
+                                input#title(type='text' name='title' placeholder='Title' required)
+                                br
+                                br
+                                p Description
+                                textarea#description(name="description", cols="45", rows="10" required style="resize: none;" placeholder="Description")
+                                br
+                    .row 
+                        hr
+                        .col-md-4.col-md-offset-4
+            button#submitKnap.btn-primary(onClick="submitFormData();" style="margin-top: 10px;") Submit

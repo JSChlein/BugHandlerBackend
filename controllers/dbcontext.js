@@ -1,5 +1,7 @@
 //står for alt grunt work til at hente data fra firebase.
 const config = require("../config");
+const encryptionTool = require("../controllers/EncryptionController")
+const { v4: uuidv4 } = require('uuid');
 let database = {};
 
 
@@ -17,11 +19,8 @@ const db = admin.firestore();
 //------------------------------------------------------DATABASE METHODS---------------------------------------------------------------
 
 database.AuthenticateUser = function(email, password, callback) {
-    console.log(email);
-    console.log(password);
     db.collection("Accounts")
         .where("email", "==", email.toLowerCase())
-        .where("password", "==", password)
         .get()
         .then((snapshot) => {
             if (snapshot.empty) {
@@ -29,8 +28,16 @@ database.AuthenticateUser = function(email, password, callback) {
             } else {
                 snapshot.forEach((document) => {
                     const user = document.data();
-                    user.id = document.id;
-                    callback(user);
+                    console.log(user);
+                    encryptionTool.Compare(password, user.password, (res) => {
+                        if (res) {
+                            user.id = document.id;
+                            callback(user);
+                        } else {
+                            callback(false)
+                        }
+                        console.log(res);
+                    })
                 });
             }
         })
@@ -40,10 +47,13 @@ database.AuthenticateUser = function(email, password, callback) {
 }
 
 database.CreateUser = function(email, password, callback) {
-    callback(db.collection('Accounts').doc().set({
-        email: email.toLowerCase(),
-        password: password
-    }))
+    encryptionTool.Encrypt(password, (encryptedPassword) => {
+        callback(db.collection('Accounts').doc().set({
+            email: email.toLowerCase(),
+            password: encryptedPassword
+        }))
+    });
+
 }
 
 database.DeleteUser = function(docId, callback) {
@@ -58,9 +68,10 @@ database.GetUser = function(username, password) {
 
 }
 
-database.CreateReport = function(req, callback) {
+database.CreateReport = async function(req, callback) {
 
-    let data = req;
+    let data = await req;
+
     console.log(data);
 
     console.log(`Title: ${data.Title},
@@ -70,6 +81,7 @@ database.CreateReport = function(req, callback) {
         ErrorCode: ${data.ErrorCode},
         ErrorMessage: ${data.ErrorMessage},
         FileName: ${data.FileName},
+        ImageExtension: ${data.ImageExtension},
         ProgramName: ${data.ProgramName}`);
 
 
@@ -82,12 +94,37 @@ database.CreateReport = function(req, callback) {
         ErrorCode: data.ErrorCode,
         ErrorMessage: data.ErrorMessage,
         FileName: data.FileName,
-        ProgramName: data.ProgramName
+        ProgramName: data.ProgramName,
+        ImageExtension: data.ImageExtension
     }))
 }
 
-database.GetReport = function() {
-
+database.GetReport = function(docId, callback) {
+    db.collection("Reports")
+        .doc(docId)
+        .get()
+        .then((snapshot) => {
+            if (snapshot.empty) {
+                callback("false")
+            } else {
+                const report = snapshot.data();
+                let reportObj = {
+                    Title: report.Title,
+                    Description: report.Description,
+                    TimeStamp: report.TimeStamp,
+                    EncodedImage: report.EncodedImage,
+                    ErrorCode: report.ErrorCode,
+                    ErrorMessage: report.ErrorMessage,
+                    FileName: report.FileName,
+                    ProgramName: report.ProgramName,
+                    ImageExtension: report.ImageExtension,
+                    docId: docId
+                };
+                callback(reportObj)
+            }
+        }).catch((err) => {
+            return;
+        })
 }
 
 database.DeleteReport = function() {
@@ -101,24 +138,27 @@ database.GetAllReports = function(callback) {
             if (snapshot.empty) {
                 return;
             } else {
-                let userArray = [];
+                let reportArray = [];
                 let i = 0;
                 snapshot.forEach((document) => {
                     const report = document.data();
                     let reportObj = {
                         Title: report.Title,
                         Description: report.Description,
-                        phone: report.telefonnummer,
+                        TimeStamp: report.TimeStamp,
+                        EncodedImage: report.EncodedImage,
+                        ErrorCode: report.ErrorCode,
+                        ErrorMessage: report.ErrorMessage,
+                        FileName: report.FileName,
+                        ProgramName: report.ProgramName,
+                        ImageExtension: report.ImageExtension,
                         docId: snapshot.docs[i].id
                     };
-                    if (userObj.username == "admin") {
-                        i++;
-                    } else {
-                        userArray.push(userObj);
-                        i++;
-                    }
+                    reportArray.push(reportObj);
+                    console.log(i);
+                    i++;
                 });
-                callback(userArray);
+                callback(reportArray);
             }
         })
         .catch((err) => {
@@ -126,6 +166,77 @@ database.GetAllReports = function(callback) {
         });
 }
 
+database.CreateApplikation = function(title, description, encodedImage, imageExtension, callback) {
+
+    let id = uuidv4();
+    let apiObj = {
+        Title: title,
+        Description: description,
+        EncodedImage: encodedImage,
+        ImageExtension: imageExtension,
+        Id: id
+    };
+    let obj = db.collection('Applications').doc()
+    obj.set({
+        Title: title,
+        Description: description,
+        EncodedImage: encodedImage,
+        ImageExtension: imageExtension,
+        Id: id
+    }).then(res => {
+        callback(obj.id);
+
+    });
+}
+
+
+database.GetApplication = function(docId, callback) {
+    console.log("Vi starter vores database")
+    db.collection("Applications")
+        .doc(docId)
+        .get()
+        .then((snapshot) => {
+            if (snapshot.empty) {
+                callback("false")
+            } else {
+                console.log("har fundet doc")
+                callback(snapshot.data());
+            }
+        }).catch((err) => {
+            return;
+        })
+}
+
+database.GetAllApplications = function(callback) {
+    db.collection("Applications")
+        .get()
+        .then((snapshot) => {
+            if (snapshot.empty) {
+                return;
+            } else {
+                let appArray = [];
+                let i = 0;
+                snapshot.forEach((document) => {
+                    const application = document.data();
+                    let appObj = {
+                        Title: application.Title,
+                        Description: application.Description,
+                        EncodedImage: application.EncodedImage,
+                        ImageExtension: application.ImageExtension,
+                        Id: application.Id,
+                        docId: snapshot.docs[i].id
+                    };
+                    appArray.push(appObj);
+                    console.log(i);
+                    i++;
+                });
+                callback(appArray);
+            }
+        })
+        .catch((err) => {
+            return;
+        });
+}
 
 
 module.exports = database;

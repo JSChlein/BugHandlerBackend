@@ -13,10 +13,12 @@ router.post('/auth', (req, res) => {
     console.log(req.body)
     const email = req.body.email;
     const password = req.body.password;
-    db.authenticateUser(email, password, (user) => {
+    database.AuthenticateUser(email, password, (user) => {
         if (!user) {
+            console.log("NAY")
             res.render("login", { msg: "Email or password is incorrect" });
         } else {
+            console.log("YAY")
             req.session.isLoggedIn = true;
             req.session.email = email;
             req.session.docID = user.id;
@@ -42,7 +44,7 @@ router.post('/register', (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
     database.CreateUser(email, password, (user) => {
-        res.redirect("user/login")
+        res.redirect("/user/login")
     })
 
 })

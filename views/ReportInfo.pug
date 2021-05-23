@@ -1,0 +1,38 @@
+include includes/header.pug
+head
+  title Reports Overview
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  link(rel="stylesheet" type="text/css" href="/stylesheets/styles.css")
+  link(rel="stylesheet" type="text/css" href="/stylesheets/reports.css")
+  script( type="text/javascript" src='/scripts/reports.js')
+body
+    .container
+        br
+        h1 Title
+        h2 #{data.Title}
+        br
+        h3 Description
+        h4 #{data.Description}
+        br
+        img#mediumBillede(src ="data:image/" + data.ImageExtension + ";base64," + data.EncodedImage)
+        br
+        h4 Time 
+        h4 #{data.TimeStamp}
+        br
+        h4 Error Code 
+        h4 #{data.ErrorCode} 
+        br
+        h4 Error Message 
+        h4 #{data.ErrorMessage}
+        br
+        h4 File Name 
+        h4 #{data.FileName} 
+        br
+        h4 Program Name 
+        h4 #{data.ProgramName}
+        br
+        br
+
+
+

@@ -8,8 +8,8 @@ const pug = require("pug");
 const app = express();
 
 app.use(morgan('tiny'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json({ limit: '500mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '500mb' }))
 app.use(cors());
 
 session = require("express-session");

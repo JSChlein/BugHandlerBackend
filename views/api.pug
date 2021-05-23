@@ -1,0 +1,29 @@
+include includes/header.pug
+head
+  title Your API key
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  link(rel="stylesheet" type="text/css" href="/stylesheets/styles.css")
+  link(rel="stylesheet" type="text/css" href="/stylesheets/reports.css")
+  script( type="text/javascript" src='/scripts/api.js')
+body
+    .container
+        br
+        h1 New Applikation Title
+        h2 #{data.Title}
+        br
+        h2 Description
+        h2 #{data.Description}
+        br
+        img#mediumBillede(src ="data:image/" + data.ImageExtension + ";base64," + data.EncodedImage)
+        br
+        h3 API KEY
+        textarea#SmallTexarea(name="", cols="25", rows="5")
+            | #{data.Id}
+        span 
+            button#copyKnap(onclick='copyText()') Copy text 
+        br
+        br
+        br
+        br
+    

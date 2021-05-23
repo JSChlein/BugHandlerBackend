@@ -21,6 +21,10 @@ if session.isLoggedIn
         ul.nav.navbar-nav
           li
             a(href='/report/all') Bug Reports
+          li
+            a(href='/report/applikation') New Application
+          li 
+            a(href='/report/allApps') All Apps
         ul.nav.navbar-nav.navbar-right
           li.dropdown
             a#capitalLetter.dropdown-toggle(data-toggle='dropdown' href='#')
@@ -39,6 +43,9 @@ unless session.isLoggedIn
           span.icon-bar
         a.navbar-brand(href='/') Bughandler
       #myNavbar.collapse.navbar-collapse
+        ul.nav.navbar-nav
+          li
+            a(href='/report/new') Create Bug Report
         ul.nav.navbar-nav.navbar-right
           li.dropdown
             a(href='/user/login')

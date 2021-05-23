@@ -1,0 +1,59 @@
+#lilleBillede {
+    width: 130px;
+    height: 130px;
+}
+
+#mediumBillede {
+    height: 500px;
+}
+
+#knap {
+    margin: 5px;
+}
+
+#SmallTexarea {
+    resize: none;
+    width: 350px;
+    height: 40px;
+}
+
+#copyKnap {
+    float: right;
+    margin-right: 700px;
+    margin-top: 7px;
+}
+
+textarea {
+    resize: none;
+    width: 500px;
+    height: 250px;
+}
+
+.wrapper {
+    min-height: 100% !important;
+}
+
+.navninput {
+    margin-top: 50px !important;
+    margin: 5px
+}
+
+.emailinput {
+    margin-top: 50px !important;
+    margin: 5px
+}
+
+#opdaterknap {
+    margin-top: 50px !important;
+    margin: 5px
+}
+
+#myInput {
+    width: 130px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+#myInput:focus {
+    width: 180px;
+}

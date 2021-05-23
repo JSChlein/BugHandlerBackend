@@ -1,0 +1,22 @@
+include includes/header.pug
+head
+  title Your API key
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  link(rel="stylesheet" type="text/css" href="/stylesheets/styles.css")
+  link(rel="stylesheet" type="text/css" href="/stylesheets/reports.css")
+  script( type="text/javascript" src='/scripts/api.js')
+body
+    .container
+        if data
+            .row
+            each app, index in data
+                .col-sm-6.col-md-4
+                    .thumbnail
+                        img(src ="data:image/" + app.ImageExtension + ";base64," + app.EncodedImage)
+                        .caption
+                            h3 #{app.Title}
+                            p #{app.Description}
+                            p #{app.Id}
+                            a.btn.btn-primary(href='#' role='button') Button
+                            a.btn.btn-default(href='#' role='button') Button

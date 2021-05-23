@@ -4,7 +4,8 @@ head
   meta(charset='utf-8')
   meta(name='viewport' content='width=device-width, initial-scale=1')
   link(rel="stylesheet" type="text/css" href="/stylesheets/styles.css")
-  link(rel="stylesheet" type="text/css" href="/stylesheets/admin.css")
+  link(rel="stylesheet" type="text/css" href="/stylesheets/reports.css")
+  script( type="text/javascript" src='/scripts/reports.js')
 
 body
   .wrapper
@@ -17,22 +18,23 @@ body
           thead
             tr
               th Snapshot
-              th Titel
+              th Title
               th Description
-              th Tags
-              th Date
+              th Timestamp
+              th ErrorCode
               th More info
           tbody#myTable
               each report, index in reports
                 tr
-                  td #{report.snapshot}
-                  td #{report.title}
-                  td #{report.description}
-                  td #{report.tags}
-                  td(class="dato") #{report.dateCreated}
                   td 
-                    button#knap(type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#deleteModal" + index)
-                        span(class="glyphicon glyphicon-new-window")
+                    img#lilleBillede(src ="data:image/" + report.ImageExtension + ";base64," + report.EncodedImage)
+                  td #{report.Title}
+                  td #{report.Description}
+                  td(class="dato") #{report.TimeStamp}
+                  td #{report.ErrorCode}
+                  td #{report.docId}
+                  td
+                    button(onClick="redirect(this);" data-docId=report.docId) More
       unless reports
         p Ingen Reports Fundet.
         table.table.table-hover

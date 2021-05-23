@@ -1,0 +1,29 @@
+include includes/header.pug
+head
+  title Reports Overview
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1')
+  link(rel="stylesheet" type="text/css" href="/stylesheets/styles.css")
+  link(rel="stylesheet" type="text/css" href="/stylesheets/reports.css")
+  script( type="text/javascript" src='/scripts/reports.js')
+body
+    .container
+        br
+        form(action='/report/new', method='POST' class="report-form")
+            h1 hej
+            input(
+          type='text'
+          name='title' 
+          placeholder='Title' 
+          required
+        )
+        textarea(
+          type='textarea'
+          name='description'
+          rows="10"
+          col="30"
+          placeholder='Description' 
+          required
+        )
+        br
+        input(type='submit' value="Submit")
