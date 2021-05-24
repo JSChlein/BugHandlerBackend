@@ -1,9 +1,24 @@
+doctype html
 include includes/header.pug
-html 
-    head 
+head
         link(rel="stylesheet", type="text/css" href="/stylesheets/login-styles.css")
         link(rel="stylesheet" type="text/css" href="/stylesheets/styles.css")
-    body 
-        .container
-            br
-            p hej 
+body
+    .container
+        .row 
+            .col-6.col-md-4
+            .col-6.col-md-4
+                form.form-signin(action='/user/auth', method='POST')
+                    h2.form-signin-heading Please sign in
+                    label.sr-only(for='inputEmail') Email address
+                    input#inputEmail.form-control(name= "email" type='email' placeholder='Email address' required='' autofocus='')
+                    br
+                    label.sr-only(for='inputPassword') Password
+                    input#inputPassword.form-control(name="password" type='password' placeholder='Password' required='')
+                    .checkbox
+                    a(href="/user/register") Not registered? Click Here.
+                    br
+                    br
+                    button.btn.btn-lg.btn-primary.btn-block(type='submit') Sign in
+            .col
+

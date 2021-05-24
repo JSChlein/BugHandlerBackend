@@ -3,6 +3,7 @@ const express = require("express");
 const database = require("../controllers/dbcontext");
 const router = express.Router();
 const db = require("../controllers/dbController");
+const Authencation = require("../controllers/Authentication")
 
 
 
@@ -19,13 +20,11 @@ router.post('/auth', (req, res) => {
             res.render("login", { msg: "Email or password is incorrect" });
         } else {
             console.log("YAY")
-            req.session.isLoggedIn = true;
-            req.session.email = email;
-            req.session.docID = user.id;
+            Authencation.SetSessionLoggedIn(req, user.id, email)
             console.log(
                 chalk.greenBright.inverse.bold(`${req.session.email} has just logged in!`)
             );
-            res.redirect("/");
+            res.redirect("/report/allApps");
         }
         res.end();
     });
@@ -50,9 +49,7 @@ router.post('/register', (req, res) => {
 })
 
 router.get('/logout', (req, res) => {
-    req.session.isLoggedIn = false;
-    req.session.email = null;
-    req.session.docID = null;
+    Authencation.SetSessionLoggedOut(req);
     res.redirect("/")
 })
 

@@ -1,6 +1,7 @@
 const chalk = require("chalk");
 const express = require("express");
 const session = require("express-session");
+const Authencation = require("../controllers/Authentication")
 const database = require("../controllers/dbcontext");
 const router = express.Router();
 const db = require("../controllers/dbController");
@@ -9,7 +10,7 @@ const util = require('util');
 
 
 router.get("/all", (req, res) => {
-    if (req.session.isLoggedIn) {
+    if (Authencation.CheckLoggedIn(req)) {
         console.log("Hej")
         database.GetAllReports((data) => {
             console.log("Hello");
@@ -18,13 +19,12 @@ router.get("/all", (req, res) => {
     } else {
         res.redirect("/")
     }
-
 })
 
 router.get("/app/reports", (req, res) => {
-    let AppId = req.query.appId;
-    console.log(AppId);
-    if (req.session.isLoggedIn) {
+    if (Authencation.CheckLoggedIn(req)) {
+        let AppId = req.query.appId;
+        console.log(AppId);
         console.log("Hej")
         database.GetAllReportForApp(AppId, (data) => {
             console.log("Hello");
@@ -64,18 +64,33 @@ router.post("/new", (req, res) => {
 })
 
 router.get("/new", (req, res) => {
-    res.render("ReportNew");
+    if (Authencation.CheckLoggedIn(req)) {
+        res.render("ReportNew");
+    } else {
+        res.redirect("/")
+    }
+
 })
 
 router.get("/info", (req, res) => {
-    let docId = req.query.docId;
-    database.GetReport(docId, (report) => {
-        res.render("ReportInfo", { data: report });
-    })
+    if (Authencation.CheckLoggedIn(req)) {
+        let docId = req.query.docId;
+        database.GetReport(docId, (report) => {
+            res.render("ReportInfo", { data: report });
+        })
+    } else {
+        res.redirect("/")
+    }
+
 })
 
 router.get("/applikation", (req, res) => {
-    res.render("applikation");
+    if (Authencation.CheckLoggedIn(req)) {
+        res.render("applikation");
+    } else {
+        res.redirect("/")
+    }
+
 })
 
 router.post("/applikation/new", (req, res) => {
@@ -97,21 +112,31 @@ router.post("/applikation/new", (req, res) => {
 })
 
 router.get("/api", (req, res) => {
-    console.log("Nu STARTER VI ET KALD PÅ API")
-    let docId = req.query.docId;
-    console.log("HER HAR VI DOC ID")
-    console.log(docId)
-    database.GetApplication(docId, (response) => {
-        console.log("NU FIK VI SVAR")
-        console.log(response)
-        res.render("api", { data: response });
-    })
+    if (Authencation.CheckLoggedIn(req)) {
+        console.log("Nu STARTER VI ET KALD PÅ API")
+        let docId = req.query.docId;
+        console.log("HER HAR VI DOC ID")
+        console.log(docId)
+        database.GetApplication(docId, (response) => {
+            console.log("NU FIK VI SVAR")
+            console.log(response)
+            res.render("api", { data: response });
+        })
+    } else {
+        res.redirect("/")
+    }
+
 })
 
 router.get("/allApps", (req, res) => {
-    database.GetAllApplications((data) => {
-        res.render("AllApps", { data: data })
-    })
+    if (Authencation.CheckLoggedIn(req)) {
+        database.GetAllApplications((data) => {
+            res.render("AllApps", { data: data })
+        })
+    } else {
+        res.redirect("/")
+    }
+
 })
 
 router.delete("/allApps/delete", (req, res) => {

@@ -2,6 +2,7 @@
 const config = require("../config");
 const encryptionTool = require("../controllers/EncryptionController")
 const { v4: uuidv4 } = require('uuid');
+const fs = require('fs');
 let database = {};
 
 
@@ -73,6 +74,36 @@ database.CreateReport = async function(req, callback) {
     let data = await req;
 
     console.log(data);
+    if (!data.Title) {
+        data.Title = "N/A"
+    }
+    if (!data.Description) {
+        data.Description = "N/A"
+    }
+    if (!data.TimeStamp) {
+        data.TimeStamp = "N/A"
+    }
+    if (!data.EncodedImage) {
+        data.EncodedImage = ReadPlaceHolderEncoding();
+    }
+    if (!data.ErrorCode) {
+        data.ErrorCode = "N/A"
+    }
+    if (!data.ErrorMessage) {
+        data.ErrorMessage = "N/A"
+    }
+    if (!data.FileName) {
+        data.FileName = "N/A"
+    }
+    if (!data.ImageExtension) {
+        data.ImageExtension = ".png"
+    }
+    if (!data.Uid) {
+        data.Uid = "N/A"
+    }
+    if (!data.ProgramName) {
+        data.ProgramName = "N/A"
+    }
 
     console.log(`Title: ${data.Title},
         Description: ${data.Description},
@@ -306,6 +337,18 @@ database.AuthenticateApp = function(Uid, callback) {
         .catch((err) => {
             return;
         });
+}
+
+function ReadPlaceHolderEncoding() {
+    let encoding = "";
+
+    fs.readFileSync("../misc/placeholder.txt", function(err, data) {
+        if (err) {
+            throw err;
+        }
+        return data;
+
+    });
 }
 
 
