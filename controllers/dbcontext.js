@@ -82,6 +82,7 @@ database.CreateReport = async function(req, callback) {
         ErrorMessage: ${data.ErrorMessage},
         FileName: ${data.FileName},
         ImageExtension: ${data.ImageExtension},
+        Uid: ${data.Uid},
         ProgramName: ${data.ProgramName}`);
 
 
@@ -95,6 +96,7 @@ database.CreateReport = async function(req, callback) {
         ErrorMessage: data.ErrorMessage,
         FileName: data.FileName,
         ProgramName: data.ProgramName,
+        Uid: data.Uid,
         ImageExtension: data.ImageExtension
     }))
 }
@@ -152,6 +154,43 @@ database.GetAllReports = function(callback) {
                         FileName: report.FileName,
                         ProgramName: report.ProgramName,
                         ImageExtension: report.ImageExtension,
+                        docId: snapshot.docs[i].id
+                    };
+                    reportArray.push(reportObj);
+                    console.log(i);
+                    i++;
+                });
+                callback(reportArray);
+            }
+        })
+        .catch((err) => {
+            return;
+        });
+}
+
+database.GetAllReportForApp = function(appId, callback) {
+    db.collection("Reports")
+        .where("Uid", "==", appId)
+        .get()
+        .then((snapshot) => {
+            if (snapshot.empty) {
+                return;
+            } else {
+                let reportArray = [];
+                let i = 0;
+                snapshot.forEach((document) => {
+                    const report = document.data();
+                    let reportObj = {
+                        Title: report.Title,
+                        Description: report.Description,
+                        TimeStamp: report.TimeStamp,
+                        EncodedImage: report.EncodedImage,
+                        ErrorCode: report.ErrorCode,
+                        ErrorMessage: report.ErrorMessage,
+                        FileName: report.FileName,
+                        ProgramName: report.ProgramName,
+                        ImageExtension: report.ImageExtension,
+                        AppId: report.Uid,
                         docId: snapshot.docs[i].id
                     };
                     reportArray.push(reportObj);
@@ -245,6 +284,27 @@ database.DeleteApplication = function(docId, callback) {
         .then(res => callback(res))
         .catch((err) => {
             console.log(err);
+        });
+}
+
+database.AuthenticateApp = function(Uid, callback) {
+    db.collection("Applications")
+        .where("Id", "==", Uid)
+        .get()
+        .then((snapshot) => {
+            if (snapshot.empty) {
+                callback(false);
+            } else {
+                snapshot.forEach((document) => {
+                    const app = document.data();
+                    console.log(app);
+                    callback(app)
+
+                });
+            }
+        })
+        .catch((err) => {
+            return;
         });
 }
 

@@ -19,12 +19,12 @@ if session.isLoggedIn
         a.navbar-brand(href='/') Bughandler
       #myNavbar.collapse.navbar-collapse
         ul.nav.navbar-nav
-          li
-            a(href='/report/all') Bug Reports
+          li 
+            a(href='/report/allApps') Conntected Applications
           li
             a(href='/report/applikation') New Application
-          li 
-            a(href='/report/allApps') All Apps
+          li
+            a(href='/report/all') All reports
         ul.nav.navbar-nav.navbar-right
           li.dropdown
             a#capitalLetter.dropdown-toggle(data-toggle='dropdown' href='#')
@@ -32,7 +32,7 @@ if session.isLoggedIn
               span.caret
             ul.dropdown-menu
               li
-                a(href='/user/logout') Log ud
+                a(href='/user/logout') Sign out
 unless session.isLoggedIn
   nav.navbar.navbar-default.navbar-fixed-top
     .container-fluid

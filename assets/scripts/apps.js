@@ -24,5 +24,5 @@ function deleteApp(button) {
 
 function seeReport(button) {
     let appId = button.getAttribute('data-appId')
-    window.location = '/report/all?appId=' + appId;
+    window.location = '/report/app/reports?appId=' + appId;
 }

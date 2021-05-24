@@ -4,13 +4,11 @@ const session = require("express-session");
 const database = require("../controllers/dbcontext");
 const router = express.Router();
 const db = require("../controllers/dbController");
+const misc = require("../controllers/misc");
 const util = require('util');
 
 
 router.get("/all", (req, res) => {
-
-    let AppId = req.query.appId;
-    console.log(AppId);
     if (req.session.isLoggedIn) {
         console.log("Hej")
         database.GetAllReports((data) => {
@@ -22,18 +20,46 @@ router.get("/all", (req, res) => {
     }
 
 })
+
+router.get("/app/reports", (req, res) => {
+    let AppId = req.query.appId;
+    console.log(AppId);
+    if (req.session.isLoggedIn) {
+        console.log("Hej")
+        database.GetAllReportForApp(AppId, (data) => {
+            console.log("Hello");
+            res.render("reports", { reports: data });
+        })
+    } else {
+        res.redirect("/")
+    }
+})
+
 const CreateReportAsync = util.promisify(database.CreateReport);
 
 router.post("/new", (req, res) => {
     let data;
     data = req.body;
-    setTimeout(function() {
-        CreateReportAsync(data).then(result => {
-            console.log(result);
-        }).catch(err => {
-            console.log(err);
-        });
-    }, 10000)
+    uid = req.body.Uid
+
+    database.AuthenticateApp(uid, (resp) => {
+        if (resp) {
+            console.log(`Application: ${resp.Title} with Uid: ${resp.Id} has received a new report.`)
+            setTimeout(function() {
+                CreateReportAsync(data).then(result => {
+                    console.log(result);
+                }).catch(err => {
+                    console.log(err);
+                });
+            }, 10000)
+
+
+        } else {
+            console.log("Application is not authenticated")
+            res.send("Application is not authenticated")
+        }
+
+    })
 
 })
 
