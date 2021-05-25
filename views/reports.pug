@@ -17,6 +17,7 @@ body
         table.table.table-hover
           thead
             tr
+              th Solved
               th Snapshot
               th Title
               th Description
@@ -26,6 +27,16 @@ body
           tbody#myTable
               each report, index in reports
                 tr
+                  if report.Solved === true
+                    td
+                      br
+                      br
+                      input#SolvedCheck(onclick="SetSolved(this)" data-docId=report.docId type="checkbox" value="Solved" checked )
+                  unless report.Solved === true
+                    td
+                      br
+                      br
+                      input#SolvedCheck(onclick="SetSolved(this)" data-docId=report.docId type="checkbox" value="Solved")
                   td 
                     img#lilleBillede(src ="data:image/" + report.ImageExtension + ";base64," + report.EncodedImage)
                   td #{report.Title}

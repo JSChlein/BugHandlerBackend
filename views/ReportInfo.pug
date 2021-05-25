@@ -33,6 +33,11 @@ body
         h4 #{data.ProgramName}
         br
         br
-
-
+        h4 Solved 
+        if data.Solved
+          input(type="checkbox" value="Solved" checked) 
+        unless data.Solved 
+          input(type="checkbox" value="Solved") 
+        br
+        br
 

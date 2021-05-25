@@ -7,6 +7,12 @@
     height: 500px;
 }
 
+#SolvedCheck {
+    height: 25px;
+    width: 25px;
+    margin-left: 10px;
+}
+
 #knap {
     margin: 5px;
 }

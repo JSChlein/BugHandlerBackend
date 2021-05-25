@@ -164,6 +164,20 @@ database.DeleteReport = function() {
 
 }
 
+
+database.SetReportSolved = function(docId, solved, callback) {
+    db.collection("Reports")
+        .doc(docId)
+        .update({
+            Solved: solved
+        }).then(result => {
+            callback(result);
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+
 database.GetAllReports = function(callback) {
     db.collection("Reports")
         .get()
@@ -184,9 +198,16 @@ database.GetAllReports = function(callback) {
                         ErrorMessage: report.ErrorMessage,
                         FileName: report.FileName,
                         ProgramName: report.ProgramName,
+                        Solved: report.Solved,
                         ImageExtension: report.ImageExtension,
                         docId: snapshot.docs[i].id
                     };
+
+                    if (report.Solved == "true") {
+                        reportObj.Solved = true;
+                    } else {
+                        report.Solved = false;
+                    }
                     reportArray.push(reportObj);
                     console.log(i);
                     i++;
@@ -222,6 +243,7 @@ database.GetAllReportForApp = function(appId, callback) {
                         ProgramName: report.ProgramName,
                         ImageExtension: report.ImageExtension,
                         AppId: report.Uid,
+                        Solved: report.Solved,
                         docId: snapshot.docs[i].id
                     };
                     reportArray.push(reportObj);

@@ -16,7 +16,7 @@ if session.isLoggedIn
           span.icon-bar
           span.icon-bar
           span.icon-bar
-        a.navbar-brand(href='/') Bughandler
+        a.navbar-brand(href='/report/allApps') Bughandler
       #myNavbar.collapse.navbar-collapse
         ul.nav.navbar-nav
           li 
@@ -45,7 +45,4 @@ unless session.isLoggedIn
       #myNavbar.collapse.navbar-collapse
         ul.nav.navbar-nav
         ul.nav.navbar-nav.navbar-right
-          li.dropdown
-            a(href='/user/login')
-              | LOGIN
 div(class="container" style="margin: 50px;")

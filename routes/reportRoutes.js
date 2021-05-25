@@ -35,6 +35,19 @@ router.get("/app/reports", (req, res) => {
     }
 })
 
+router.put("/app/reports/solved", (req, res) => {
+    let docId = req.body.DocId;
+    let solved = req.body.Solved;
+
+    database.SetReportSolved(docId, solved, (cb) => {
+        console.log(cb);
+        res.send(cb);
+    })
+
+    console.log(docId);
+    console.log(solved)
+})
+
 const CreateReportAsync = util.promisify(database.CreateReport);
 
 router.post("/new", (req, res) => {
