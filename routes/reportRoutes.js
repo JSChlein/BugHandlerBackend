@@ -46,6 +46,7 @@ router.post("/new", (req, res) => {
     let data;
     data = req.body;
     uid = req.body.Uid
+    console.log(data);
 
     database.AuthenticateApp(uid, (resp) => {
         if (resp) {
@@ -53,6 +54,7 @@ router.post("/new", (req, res) => {
             setTimeout(function() {
                 CreateReportAsync(data).then(result => {}).catch(err => {
                     console.log(err);
+                    res.send("Report Accepted")
                 });
             }, 10000)
 
