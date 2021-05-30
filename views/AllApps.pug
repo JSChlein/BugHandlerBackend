@@ -20,3 +20,5 @@ body
                             p #{app.Id}
                             a.btn.btn-primary(onClick="deleteApp(this);" data-docId=app.docId role='button') Delete
                             a.btn.btn-default(onClick="seeReport(this);" data-appId=app.Id role='button') See Reports
+        unless data
+            h1 Der blev ikke fundet nogen registrerede applikationer :-(

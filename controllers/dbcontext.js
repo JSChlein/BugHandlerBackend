@@ -105,6 +105,8 @@ database.CreateReport = async function(req, callback) {
         data.ProgramName = "N/A"
     }
 
+    data.Solved = false;
+
     console.log(`Title: ${data.Title},
         Description: ${data.Description},
         TimeStamp: ${data.TimeStamp},
@@ -128,6 +130,7 @@ database.CreateReport = async function(req, callback) {
         FileName: data.FileName,
         ProgramName: data.ProgramName,
         Uid: data.Uid,
+        Solved: data.Solved,
         ImageExtension: data.ImageExtension
     }))
 }
@@ -183,7 +186,7 @@ database.GetAllReports = function(callback) {
         .get()
         .then((snapshot) => {
             if (snapshot.empty) {
-                return;
+                callback(false);
             } else {
                 let reportArray = [];
                 let i = 0;
@@ -226,7 +229,7 @@ database.GetAllReportForApp = function(appId, callback) {
         .get()
         .then((snapshot) => {
             if (snapshot.empty) {
-                return;
+                callback(false);
             } else {
                 let reportArray = [];
                 let i = 0;
@@ -304,7 +307,7 @@ database.GetAllApplications = function(callback) {
         .get()
         .then((snapshot) => {
             if (snapshot.empty) {
-                return;
+                callback(false);
             } else {
                 let appArray = [];
                 let i = 0;
